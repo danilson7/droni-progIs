@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+  </head>
+
+<body>
+    <nav class="nav-container">
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/logout">Esci</a></li>
+        </ul>
+    </nav>
+    <h1>Voli da Completare</h1>
+
+    <div class="data-table" style="width:65%;margin:auto">
+        <table border="1" cellpadding="7" cellspacing="7">
+            <tr>
+                <th width="50px">No</th>
+                <th>Nome</th>
+                <th>Osservatore</th>
+                <th>Termina</th>
+            </tr>
+
+            <% if(tutti.length){
+         		for(var i = 0;i < tutti.length;i++) { %>
+            	    <% if(tutti[i].osservatore == 0){
+         				oss = 'No';
+	        		}else{
+			         	oss = 'Presente';
+        		 	} %>
+                <tr>
+                    <td>
+                        <%=(i+1)%>
+                    </td>
+                    <td>Volo del
+                            <%=tutti[i].data_volo%>
+                    </td>
+                    <td>
+                            <%=oss%>
+                    </td>
+                    <td>
+                            <a class="a-inside edit" href="/osservatore_fly/close/<%=tutti[i].id%>">Concludi Volo</a>
+                    </td>
+                </tr>
+            <% }
+
+     }else{ %>
+                        <tr>
+                            <td colspan="5">Non ci sono voli da completare</td>
+                        </tr>
+            <% } %>
+
+        </table>
+    </div>
+
+</body>
+
+</html>

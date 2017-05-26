@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div>
+
+    </div>
+    <nav class="nav-container">
+        <ul class="menu">
+            <li>
+                <h1 class="titleUsers">Gestione Utenti</h1>
+
+            </li>
+            <li class="home"><a href="/">Home</a></li>
+            <li class="home"><a href="/logout">Esci</a></li>
+        </ul>
+    </nav>
+
+    <div class="data-table table" style="width:65%; float:left;">
+        <table border="1" cellpadding="7" cellspacing="7">
+            <tr class="active">
+                <th width="50px">No</th>
+                <th>CF</th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Data di Nascita</th>
+                <th>Password</th>
+                <th>Livello</th>
+                <th>Stato</th>
+            </tr>
+
+            <% if(data.length){
+         for(var i = 0;i < data.length;i++) { %>
+                <% if(data[i].stato == 1){
+         	colore = 'green';
+         }else{
+         	colore = 'red';
+         }
+           %>
+
+                    <tr style="color:<%=colore%>">
+                        <td>
+                            <%=(i+1)%>
+                        </td>
+                        <td>
+                            <%=data[i].cf%>
+                        </td>
+                        <td>
+                            <%=data[i].nome%>
+                        </td>
+                        <td>
+                            <%=data[i].cognome%>
+                        </td>
+                        <td>
+                            <%=data[i].data%>
+                        </td>
+                        <td>
+                            <%=data[i].password%>
+                        </td>
+                        <td>
+                            <%=data[i].livello%>
+                        </td>
+                        <td>
+                            <%=data[i].stato%>
+                        </td>
+                        <td>
+                            <a class="a-inside edit" href="/admin/user/<%=data[i].id%>">Edit</a>
+                        </td>
+                    </tr>
+                    <% }
+
+     }else{ %>
+                        <tr>
+                            <td colspan="5">No Data</td>
+                        </tr>
+                        <% } %>
+
+        </table>
+    </div>
+
+    <div class="page-data" style="width:35%; float:left; margin:auto">
+        <h4>Inserisci nuovo utente</h4>
+        <form method="post" action="" id="the-form" style="border: 1px solid #cccccc">
+            <table cellpadding="11">
+                <tr>
+                    <td class="label">CF:</td>
+                    <td><input type="text" name="cf" id="cf"></td>
+                </tr>
+                <tr>
+                    <td class="label">Nome:</td>
+                    <td><input type="text" name="nome" id="nome"></td>
+                </tr>
+                <tr>
+                    <td class="label">Cognome:</td>
+                    <td><input type="text" name="cognome" id="cognome"></td>
+                </tr>
+                <tr>
+                    <td class="label">Data di Nascita:</td>
+                    <td><input type="date" name="data" id="data"></td>
+                </tr>
+                <tr>
+                    <td class="label">Password:</td>
+                    <td><input type="password" name="password" id="password"></td>
+                </tr>
+                <tr>
+                    <td class="label">Livello</td>
+                    <td>:
+                        <select name="livello" id="livello">
+            <option value="1">Amministratore</option>
+            <option value="2">Pilota</option>
+            <option value="3">Osservatore</option></td>
+         </tr>
+         <tr>
+            <td class="label"></td>
+            <td>
+            <input type="button" value="Submit" id="submit">
+            </td>
+         </tr>
+        </table>
+    </form>
+</div>
+<div class="page-data">
+     <ul class="err-area"></ul>
+</div>
+
+<script>
+
+
+$(document).ready(function(){
+    var cf,nome,cognome,data,password,livello;
+    $("#submit").click(function(){
+        cf=$("#cf").val();
+        nome=$("#nome").val();
+        cognome=$("#cognome").val();
+        data=$("#data").val();
+        password=$("#password").val();
+        livello=$("#livello").val();
+        $.post("http://localhost:3000/admin/user/",{cf:cf,nome:nome,cognome:cognome,data:data,password:password,livello:livello},function(data){
+            if(data==='done'){
+                window.location.href="/admin/user";
+            }
+        });
+    });
+});
+
+
+</script>
+</body>
+</html>

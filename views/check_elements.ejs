@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%=title%></title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/../css/style.css">
+        <link rel="stylesheet" href="/../css/bootstrap.min.css">
+    </head>
+<body>
+<nav class="nav-container">
+<ul class="menu">
+	<li><a href="/">Home</a></li>
+	<li><a href="/logout">Esci</a></li>
+</ul>
+</nav>
+<h1>Gestione Check-Element</h1>
+
+<!-- PRE VOLO --!>
+<div class="data-table">
+	<H3>Check elements PRE VOLO</h3>
+    <table border="1" cellpadding="7" cellspacing="7">
+        <tr>
+            <th width="50px">No</th>
+            <th>ID</th>
+            <th>Nome</th>
+        </tr>
+
+        <% if(pre.length){
+         for(var i = 0;i < pre.length;i++) { %>
+         <% if(pre[i].stato == 1){
+         	colore = 'green';
+         }else{
+         	colore = 'red';
+         } %>
+        <tr style="color:<%=colore%>">
+            <td><%=(i+1)%></td>
+            <td><%=pre[i].id%></td>
+            <td><%=pre[i].nome%></td>
+            <td>
+                <a class="a-inside edit" href="/admin_checklist/checkelement/<%=pre[i].id%>">Modifica</a>
+            </td>
+        </tr>
+    <% }
+
+     }else{ %>
+         <tr>
+            <td colspan="5">No Data</td>
+         </tr>
+    <% } %>
+
+    </table>
+</div>
+<div class="page-data">
+
+    <form method="post" action="" id="the-form">
+        <table cellpadding="11">
+        <tr>
+            <td class="label">Nome</td><td>: <input type="text" name="nome" id="nome"></td>
+         </tr>
+         <tr>
+            <td class="label"></td>
+            <td>
+            <input type="button" value="Submit" id="submit">
+            </td>
+         </tr>
+        </table>
+    </form>
+</div>
+<div class="page-data">
+     <ul class="err-area"></ul>
+</div>
+<!-- POST VOLO --!>
+<div class="data-table">
+	<H3>Check elements POST VOLO</h3>
+    <table border="1" cellpadding="7" cellspacing="7">
+        <tr>
+            <th width="50px">No</th>
+            <th>ID</th>
+            <th>Nome</th>
+        </tr>
+
+        <% if(post.length){
+         for(var i = 0;i < post.length;i++) { %>
+         <% if(post[i].stato == 1){
+         	colore = 'green';
+         }else{
+         	colore = 'red';
+         } %>
+        <tr style="color:<%=colore%>">
+            <td><%=(i+1)%></td>
+            <td><%=post[i].id%></td>
+            <td><%=post[i].nome%></td>
+            <td>
+                <a class="a-inside edit" href="/admin_checklist/checkelement/<%=post[i].id%>">Modifica</a>
+            </td>
+        </tr>
+    <% }
+
+     }else{ %>
+         <tr>
+            <td colspan="5">No Data</td>
+         </tr>
+    <% } %>
+
+    </table>
+</div>
+<div class="page-data">
+
+    <form method="post" action="" id="the-form">
+        <table cellpadding="11">
+        <tr>
+            <td class="label">Nome</td><td>: <input type="text" name="nome" id="nomepost"></td>
+         </tr>
+         <tr>
+            <td class="label"></td>
+            <td>
+            <input type="button" value="Submit" id="postvolo">
+            </td>
+         </tr>
+        </table>
+    </form>
+</div>
+<div class="page-data">
+     <ul class="err-area"></ul>
+</div>
+
+<script>
+
+
+$(document).ready(function(){
+    var nome;
+    var tipo;
+    $("#submit").click(function(){
+        nome=$("#nome").val();
+        tipo='0';
+        $.post("http://localhost:3000/admin_checklist/checkelements/"+<%=id%>,{nome:nome,tipo:tipo},function(data){
+            if(data==='done'){
+                window.location.href="/admin_checklist/checkelements/"+<%=id%>;
+            }
+        });
+    });
+    $("#postvolo").click(function(){
+        nome=$("#nomepost").val();
+        tipo='1';
+        $.post("http://localhost:3000/admin_checklist/checkelements/"+<%=id%>,{nome:nome,tipo:tipo},function(data){
+            if(data==='done'){
+                window.location.href="/admin_checklist/checkelements/"+<%=id%>;
+            }
+        });
+    });
+});
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>SAPR Tracking system</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+    <script>
+        $(document).ready(function() {
+            var email, pass;
+            $("#submit").click(function() {
+                email=$("#email").val();
+                pass=$("#pass").val();
+                /*
+                 * Perform some validation here.
+                 */
+                $.post("http://localhost:3000/login",{email:email,pass:pass},function(data){
+                    if (data === 'done') {
+                        window.location.href = "/admin";
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="nav-container">
+        <ul class="menu">
+            <li>
+                <a href="#/"><h1>SAPR Tracking system</h1></a>
+            </li>
+        </ul>
+    </div>
+    <div class="loginForms">
+        <center>
+            <h2 id="title2">Login</h2>
+            <form method="post" action="" id="login">
+                <input type="text" size="40" placeholder="Email" id="email" class="form-control"><br />
+                <input type="password" size="40" placeholder="Password" id="pass" class="form-control"><br />
+                <input type="button" value="Submit" id="submit" class="btn btn-primary">
+            </form>
+        </center>
+    </div>
+</body>
+
+</html>

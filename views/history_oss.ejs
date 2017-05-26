@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%=title%></title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
+        <link rel="stylesheet" href="/../css/style.css">
+        <link rel="stylesheet" href="/../css/bootstrap.min.css">
+    </head>
+<body>
+  <nav class="nav-container">
+  <ul class="menu">
+  	<li><a href="/">Home</a></li>
+  	<li><a href="/logout">Esci</a></li>
+  </ul>
+  </nav>
+<h1>Dettagli volo</h1>
+
+<div class="data-table">
+    <table border="1" cellpadding="7" cellspacing="7">
+        <tr>
+            <th>Volo del</th>
+
+            <th>Report</th>
+            <th>Note</th>
+            <th>Pilota</th>
+            <th>Completato il</th>
+        </tr>
+        <% if(tutti.length){
+            for(var i = 0;i < tutti.length;i++) { %>
+        <tr>
+            <td><%=tutti[i].data_volo%></td>
+
+            <td><%=tutti[i].report%></td>
+            <td><%=tutti[i].note_oss%></td><%
+            if(tutti[i].nome){ %>
+            	<td><%=tutti[i].nome%> - <%=tutti[i].cognome%></td><%
+            }else{ %>
+            	<td>Nessun Osservatore Presente</td><%
+            } %>
+            <td><%=tutti[i].data_note_oss%></td>
+        </tr>
+    <% }
+
+     }else{ %>
+         <tr>
+            <td colspan="5">No Data</td>
+         </tr>
+    <% } %>
+
+    </table>
+</div>
+</body>
+</html>

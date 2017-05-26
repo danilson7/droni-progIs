@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+        #map {
+            height: 350px;
+            margin: auto;
+            width: 500px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+
+        html,
+        body {
+            height: 50%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav-container">
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/logout">Esci</a></li>
+        </ul>
+    </nav>
+    <h1><%=title%></h1>
+
+    <div class="page-data">
+        <h3>Compila Note VOLO</h3>
+
+        <button onclick="inizioVolo()">Inizia Volo</button>
+        <button onclick="fineVolo()">Termina Volo</button>
+
+        <form method="post" action="#" id="the-form" enctype="multipart/form-data">
+            <p>Data di Inizio</p>
+            <input type="text" size="25" placeholder="data inizio" id="inizioVolo" class="form-control" readonly>
+
+            <p>Posizione</p>
+            <input type="text" size="40" placeholder="coordinate" id="coordinate" class="form-control">
+
+            <p>Data fine volo</p>
+            <input type="text" size="25" placeholder="data fine volo" id="fineVolo" class="form-control" readonly>
+            <p>Note Volo</p>
+            <textarea name="note" id="note" rows="5" cols="40"></textarea><br>
+            <input type="button" value="Submit" id="submit">
+        </form>
+    </div>
+
+    <div class="page-data">
+        <ul class="err-area"></ul>
+    </div>
+    <br clear="all">
+    <div id="map"></div>
+    <script>
+        // Note: This example requires that you consent to location sharing when
+        // prompted by your browser. If you see the error "The Geolocation service
+        // failed.", it means you probably did not give permission for the browser to
+        // locate you.
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 41.9068583,
+                    lng: 12.5046414
+                },
+                zoom: 15
+            });
+            var infoWindow = new google.maps.InfoWindow({
+                map: map
+            });
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var text = $('#coordinate');
+                    text.val(text.val() + position.coords.latitude + ',' + position.coords.longitude);
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Posizione di Partenza Volo.');
+                    map.setCenter(pos);
+                }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKM8O4d4rgr6fCtcxBnXycUvrL2fexExQ&callback=initMap">
+    </script>
+    <script>
+        function inizioVolo() {
+            var d = new Date();
+            var n = d.toLocaleDateString();
+            var s = d.toLocaleTimeString();
+            var text = $('#inizioVolo');
+            text.val(n + ' ' + s);
+        }
+
+        function fineVolo() {
+            var a = new Date();
+            var b = a.toLocaleDateString();
+            var c = a.toLocaleTimeString();
+            var text = $('#fineVolo');
+            text.val(b + ' ' + c);
+        }
+
+        $(document).ready(function() {
+            $("#submit").click(function() {
+
+                coordinate = $("#coordinate").val();
+                inizioVolo = $("#inizioVolo").val();
+                fineVolo = $("#fineVolo").val();
+                note_oss = $("#note").val();
+                $.post("http://localhost:3000/osservatore_fly/close/" + <%=id_list%>, {
+                    coordinate: coordinate,
+                    inizioVolo: inizioVolo,
+                    fineVolo: fineVolo,
+                    note_oss: note_oss
+                }, function(data) {
+                    if (data === 'done') {
+                        window.location.href = "/osservatore_fly/close/";
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

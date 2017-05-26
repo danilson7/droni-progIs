@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+</head>
+
+<body>
+    <h1><%=title%></h1>
+    <form method="post" action="" id="the-form">
+        <table cellpadding="11">
+            <tr>
+                <td class="label">CM</td>
+                <td>: <input type="text" name="cm" id="cm" value="<%=data[0].cm%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Dimensioni</td>
+                <td>: <input type="text" name="dimensioni" id="dimensioni" value="<%=data[0].dimensioni%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Peso</td>
+                <td>: <input type="text" name="peso" id="peso" value="<%=data[0].peso%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Data ultime Revisione</td>
+                <td>: <input type="date" name="data_revisione" id="data_revisione" value="<%=data[0].data_revisione%>"></td>
+            </tr>
+
+            <tr>
+                <td class="label">Stato</td>
+                <td>:
+                    <%
+            if(data[0].stato == '2'){ %>
+                        <select name="stato" id="stato">
+					<option value="2" selected>Attivo</option>
+					<option value="3">Disattivato</option>
+				</select>
+                        <%
+            }else{ %>
+                            <select name="stato" id="stato">
+					<option value="2">Attivo</option>
+					<option value="3" selected>Disattivato</option>
+				</select>
+                            <%
+            } %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"></td>
+                <td>
+                    <input type="button" value="Submit" id="submit">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        $(document).ready(function() {
+            var cm, dimensioni, peso, data_revisione, stato;
+            $("#submit").click(function() {
+                cm = $("#cm").val();
+                dimensioni = $("#dimensioni").val();
+                peso = $("#peso").val();
+                data_revisione = $("#data_revisione").val();
+                stato = $("#stato").val();
+
+                $.post("http://localhost:3000/admin_sapr/sapr/" + <%=data[0].id%>, {
+                    cm: cm,
+                    dimensioni: dimensioni,
+                    peso: peso,
+                    data_revisione: data_revisione,
+                    stato: stato
+                }, function(data) {
+                    if (data === 'done') {
+                        window.location.href = "/admin_sapr/sapr";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

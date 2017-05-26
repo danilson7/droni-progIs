@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="nav-container">
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/logout">Esci</a></li>
+        </ul>
+    </nav>
+    <h1>Gestione SAPR</h1>
+
+    <div class="data-table">
+        <table border="1" cellpadding="7" cellspacing="7">
+            <tr>
+                <th width="50px">No</th>
+                <th>Numero Modello</th>
+                <th>Dimensioni</th>
+                <th>Peso</th>
+                <th>Data Revisione</th>
+                <th>Proprietario</th>
+            </tr>
+            <% if(data.length){
+         for(var i = 0;i < data.length;i++) { %>
+                <% if(data[i].stato == 2){
+         	colore = 'green';
+         }else{
+         	colore = 'red';
+         }
+           %>
+
+
+                    <tr style="color:<%=colore%>">
+                        <td>
+                            <%=(i+1)%>
+                        </td>
+                        <td>
+                            <%=data[i].cm%>
+                        </td>
+
+                        <td>
+                            <%=data[i].dimensioni%>
+                        </td>
+                        <td>
+                            <%=data[i].peso%>
+                        </td>
+                        <td>
+                            <%=data[i].data_revisione%>
+                        </td>
+                        <td>
+                            <%=data[i].cf%>
+                        </td>
+                        <td>
+                            <a class="a-inside edit" href="/admin_sapr/sapr/<%=data[i].id%>">Edit</a>
+
+                        </td>
+                    </tr>
+                    <% }
+
+     }else{ %>
+                        <tr>
+                            <td colspan="5">No Data</td>
+                        </tr>
+                        <% } %>
+
+        </table>
+    </div>
+
+    <div class="page-data">
+
+        <form method="post" action="" id="the-form">
+            <table cellpadding="11">
+                <tr>
+                    <td class="label">Codice Modello</td>
+                    <td>: <input type="text" name="cm" id="cm"></td>
+                </tr>
+                <tr>
+                    <td class="label">Dimensioni</td>
+                    <td>: <input type="text" name="dimensioni" id="dimensioni"></td>
+                </tr>
+                <tr>
+                    <td class="label">Peso</td>
+                    <td>: <input type="text" name="peso" id="peso"></td>
+                </tr>
+                <tr>
+                    <td class="label">Data ultima revisione</td>
+                    <td>: <input type="date" name="data_revisione" id="data_revisione"></td>
+                </tr>
+                <tr>
+                    <td class="label">Proprietario</td>
+                    <td>:
+                        <select name="proprietario" id="proprietario">
+            <% if(tutti.length){
+	         for(var i = 0;i < tutti.length;i++) { %>
+				<option value="<%=tutti[i].id%>"><%=tutti[i].cf%></option>
+			<% }
+			} %>
+			</select></td>
+                </tr>
+                <tr>
+                    <td class="label"></td>
+                    <td>
+                        <input type="button" value="Submit" id="submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="page-data">
+        <ul class="err-area"></ul>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var cm, dimensioni, peso, data_revisione, proprietario;
+            $("#submit").click(function() {
+                cm = $("#cm").val();
+                dimensioni = $("#dimensioni").val();
+                peso = $("#peso").val();
+                data_revisione = $("#data_revisione").val();
+                proprietario = $("#proprietario").val();
+                $.post("http://localhost:3000/admin_sapr/sapr/", {
+                    cm: cm,
+                    dimensioni: dimensioni,
+                    peso: peso,
+                    data_revisione: data_revisione,
+                    proprietario: proprietario
+                }, function(data) {
+                    if (data === 'done') {
+                        window.location.href = "/admin_sapr/sapr";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

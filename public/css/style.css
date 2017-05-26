@@ -1,0 +1,149 @@
+body {
+    background: #fff;
+    width: 90%;
+    margin: auto padding-top: 0;
+    position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+      min-height: 100%;
+      width: 100%;
+    /*background: linear-gradient(to right, #25c481, #25b7c4);*/
+}
+
+ul.err-area li {
+    color: red
+}
+tr {
+	margin:2px;
+}
+td{
+	padding:5px;
+}
+.data-table {
+    float: left;
+    display: inline-block
+}
+
+.data-table table {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.page-data {
+    float: left;
+    display: inline-block;
+}
+
+h1 {
+    margin: 20px;
+}
+
+input {
+    font-size: 18px;
+    height: 40px;
+    line-height: 30px;
+    margin: 20px;
+    text-align: center;
+}
+
+#login {
+    width: 500px;
+    margin: auto;
+}
+
+.submit-btn {
+    background-color: #c4c4c4;
+    margin: 100px 100px 10px 0;
+}
+
+.title {
+    padding-bottom: 25px;
+}
+
+ul.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #22C1E6;
+    /*background-color: #7AC5CD;*/
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 0px;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 5px 12px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #20BCE0;
+    color: white;
+    text-decoration: none;
+}
+
+.active:hover {
+    color: #22C1E6;
+    text-decoration: none;
+}
+
+.nav-container {
+    text-align: center;
+    background-color: #22C1E6;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.nav-container ul {
+    display: inline-block;
+}
+
+.active {
+    background-color: white;
+    color: #22C1E6;
+    ;
+    text-decoration: none;
+}
+
+#title2 {
+    padding-top: 25px;
+}
+
+.btn-info {
+    padding-top: 25px;
+}
+
+.titleUsers {}
+
+.ipad-mini-vertical-video {
+    margin-left: 180px;
+    margin-top: 50px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 372px 483px;
+    background-position: 174px -5px;
+    background-image:url('https://dl.dropboxusercontent.com/u/70922567/ipad-mini.png');
+}
+
+.bottoni {
+    margin-top: 50px;
+}
+
+.ipad-bp {
+position: absolute;
+}
+
+video {
+    display: inline-block;
+    vertical-align: baseline;
+    padding-top: 30px;
+    padding-bottom: 100px;
+}

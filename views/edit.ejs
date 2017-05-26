@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+</head>
+
+<body>
+	<center>
+    <h1><%=title%></h1>
+    <form method="post" action="" id="the-form">
+        <table cellpadding="11">
+            <tr>
+                <td class="label">CF</td>
+                <td>: <input type="text" name="cf" id="cf" value="<%=data[0].cf%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Nome</td>
+                <td>: <input type="text" name="nome" id="nome" value="<%=data[0].nome%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Cognome</td>
+                <td>: <input type="text" name="cognome" id="cognome" value="<%=data[0].cognome%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Data di Nascita</td>
+                <td>: <input type="text" name="data" id="data" value="<%=data[0].data%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Password</td>
+                <td>: <input type="password" name="password" id="password" value="<%=data[0].password%>"></td>
+            </tr>
+            <tr>
+                <td class="label">Livello</td>
+                <td>:
+                    <%
+        	if(data[0].livello == '1'){ %>
+                        <select name="livello" id="livello">
+					<option value="1" selected>Amministratore</option>
+					<option value="2">Pilota</option>
+					<option value="3">Osservatore</option>
+				</select>
+                        <%
+            }else if(data[0].livello == '2'){ %>
+                            <select name="livello" id="livello">
+					<option value="1">Amministratore</option>
+					<option value="2" selected>Pilota</option>
+					<option value="3">Osservatore</option>
+				</select>
+                            <%
+            }else{ %>
+                                <select name="livello" id="livello">
+					<option value="1">Amministratore</option>
+					<option value="2">Pilota</option>
+					<option value="3" selected>Osservatore</option>
+				</select>
+                                <%
+            } %>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Stato</td>
+                <td>:
+                    <%
+            if(data[0].stato == '1'){ %>
+                        <select name="stato" id="stato">
+					<option value="1" selected>Attivo</option>
+					<option value="0">Disattivato</option>
+				</select>
+                        <%
+            }else{ %>
+                            <select name="stato" id="stato">
+					<option value="1">Attivo</option>
+					<option value="0" selected>Disattivato</option>
+				</select>
+                            <%
+            } %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"></td>
+                <td>
+                    <input type="button" value="Submit" id="submit">
+                    <span style="padding-left:15px"><a href="/">Cancella</a></span>
+                </td>
+            </tr>
+        </table>
+    </form>
+	</center>
+    <script>
+        $(document).ready(function() {
+            var cf, nome, cognome, data, password, livello, stato;
+            $("#submit").click(function() {
+                cf = $("#cf").val();
+                nome = $("#nome").val();
+                cognome = $("#cognome").val();
+                data = $("#data").val();
+                password = $("#password").val();
+                livello = $("#livello").val();
+                stato = $("#stato").val();
+                /*
+                 * Perform some validation here.
+                 */
+                $.post("http://localhost:3000/admin/user/" + <%=data[0].id%>, {
+                    cf: cf,
+                    nome: nome,
+                    cognome: cognome,
+                    data: data,
+                    password: password,
+                    livello: livello,
+                    stato: stato
+                }, function(data) {
+                    if (data === 'done') {
+                        window.location.href = "/admin/user";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

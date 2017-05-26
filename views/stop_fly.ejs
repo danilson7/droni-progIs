@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="nav-container">
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/logout">Esci</a></li>
+        </ul>
+    </nav>
+<center>
+    <h1><%=title%></h1>
+
+    <div class="page-data">
+        <h3>Compila Check-Elements e Dispositivi POST VOLO</h3>
+        <form method="post" action="#" id="the-form" enctype="multipart/form-data">
+            <%
+    	if(tutti.length){
+	    	for(var i = 0;i < tutti.length;i++) { %>
+                <input type="checkbox" name="checkelement" id="checkelement" value="<%=tutti[i].id_check%>">
+                <%=tutti[i].nome_check%><br>
+                    <%
+			}
+		} %>
+
+                        <p>Note Post-volo</p>
+                        <textarea name="note" id="note" rows="5" cols="40"></textarea><br>
+                        <p>Upload report(se possibile)</p>
+                        <textarea name="report" id="report" rows="5" cols="40"></textarea><br>
+                        <input type="button" value="Submit" id="submit">
+        </form>
+        <!--
+    in base alle coordinate che abbiamo, costruiamo il link per richiedere dalle API di yahoo il Meteo sulla zona del volo!
+    -->
+        <%
+	if(tutti[0].coordinate){
+		url = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='(";
+        url = url + tutti[0].coordinate;
+        url = url + ")')&format=json&callback=callbackFunction";
+	} %>
+            <!--
+l'url sembra funzionare, ma non sempre restituisce i valori...
+	<script>
+	  var callbackFunction = function(data) {
+    var wind = data.query.results.channel.wind;
+    alert(wind.chill);
+  };
+</script>
+    <script src="<%=url%>"></script>
+-->
+    </div>
+    <div class="page-data">
+        <ul class="err-area"></ul>
+    </div>
+</center>
+    <script>
+        $(document).ready(function() {
+            $("#submit").click(function() {
+                var datas = new Array();
+                $("input[name='checkelement']:checked").each(function(i) {
+                    datas.push($(this).val());
+                });
+
+                note = $("#note").val();
+                report = $("#report").val();
+                $.post("http://localhost:3000/pilota_fly/close/" + <%=id_list%>, {
+                    datas: datas,
+                    note: note,
+                    report: report
+                }, function(data) {
+                    if (data === 'done') {
+                        window.location.href = "/pilota_fly/close/";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

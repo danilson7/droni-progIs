@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/../css/style.css">
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="nav-container">
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/logout">Esci</a></li>
+        </ul>
+    </nav>
+    <h1>Gestione Dispositivi Ausiliari</h1>
+
+    <div class="data-table">
+        <table border="1" cellpadding="7" cellspacing="7">
+            <tr>
+                <th width="50px">No</th>
+                <th>Dispositivo</th>
+            </tr>
+
+            <% if(data.length){
+         for(var i = 0;i < data.length;i++) { %>
+                <% if(data[i].stato == 1){
+         	colore = 'green';
+         }else{
+         	colore = 'red';
+         }
+
+           %>
+
+                    <tr style="color:<%=colore%>">
+                        <td>
+                            <%=(i+1)%>
+                        </td>
+                        <td>
+                            <%=data[i].nome%>
+                        </td>
+                        <td>
+                            <a href="#" id="update_stato" class="<%=data[i].id%>">Disattiva</a>
+                        </td>
+
+
+                    </tr>
+                    <% }
+
+     }else{ %>
+                        <tr>
+                            <td colspan="5">No Data</td>
+                        </tr>
+                        <% } %>
+
+        </table>
+    </div>
+    <h4>Inserisci un nuovo Dispositivo Ausiliario</h4>
+    <div class="page-data">
+
+        <form method="post" action="" id="the-form">
+            <table cellpadding="11">
+                <tr>
+                    <td class="label">Nome</td>
+                    <td>: <input type="text" name="nome" id="nome"></td>
+                </tr>
+
+                <tr>
+                    <td class="label"></td>
+                    <td>
+                        <input type="button" value="Submit" id="submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="page-data">
+        <ul class="err-area"></ul>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var nome, tipo;
+            $("#submit").click(function() {
+                nome = $("#nome").val();
+                $.post("http://localhost:3000/admin_dispositivi/ausiliari/", {
+                    nome: nome
+                }, function(data) {
+                    if (data === 'done') {
+                        window.location.href = "/admin_dispositivi/ausiliari";
+                    }
+                });
+            });
+
+            $("#update_stato").click(function() {
+                id = $(".class").val();
+                $.update("http://localhost:3000/admin_dispositivi/ausiliari/", {
+                    id: id
+                }, function(data) {
+                    if (data === 'done') {
+                        window.location.href = "/admin_dispositivi/ausiliari";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
